@@ -1,7 +1,7 @@
 
 TEMPLATE = app
 TARGET = burnercoin-qt
-VERSION = 1.0.0.4
+VERSION = 1.1.0.0
 INCLUDEPATH += src src/json src/qt
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE
 CONFIG += no_include_pwd

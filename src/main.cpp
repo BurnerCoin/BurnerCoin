@@ -50,7 +50,7 @@ static const int64_t nInterval = nTargetTimespan_legacy / nTargetSpacing;
 static const int64_t nTargetTimespan = 16 * 60;
 
 int64_t devCoin = 2 * COIN; //2x from ever PoW block only will total about 1% of PoW
-int nCoinbaseMaturity = 100;
+int nCoinbaseMaturity = 10;
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
 
@@ -1056,14 +1056,28 @@ const int DAILY_BLOCKCOUNT =  1440;
 // miner's coin stake reward based on coin age spent (coin-days)
 int64_t GetProofOfStakeReward(int64_t nCoinAge, int64_t nFees)
 {
-    int64_t nRewardCoinYear;
-    nRewardCoinYear = MAX_MINT_PROOF_OF_STAKE;
-    int64_t nSubsidy = nCoinAge * nRewardCoinYear / 365 / COIN;
+    if (pindexBest->nHeight >= 13000)
+    {
+        int64_t nRewardCoinYear;
+        nRewardCoinYear = MAX_MINT_PROOF_OF_STAKE_NEW;
+        int64_t nSubsidy = nCoinAge * nRewardCoinYear / 365 / COIN;
+        if (fDebug && GetBoolArg("-printcreation"))
+            printf("GetProofOfStakeReward(): create=%s nCoinAge=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nCoinAge);
 
-    if (fDebug && GetBoolArg("-printcreation"))
-        printf("GetProofOfStakeReward(): create=%s nCoinAge=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nCoinAge);
+        return nSubsidy + nFees;
+    }
+    else
+    {
+        int64_t nRewardCoinYear;
+        nRewardCoinYear = MAX_MINT_PROOF_OF_STAKE;
+        int64_t nSubsidy = nCoinAge * nRewardCoinYear / 365 / COIN;
+        if (fDebug && GetBoolArg("-printcreation"))
+            printf("GetProofOfStakeReward(): create=%s nCoinAge=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nCoinAge);
 
-    return nSubsidy + nFees;
+        return nSubsidy + nFees;
+    }
+
+
 }
 
 
@@ -2152,7 +2166,7 @@ bool CBlock::CheckBlock(bool fCheckPOW, bool fCheckMerkleRoot, bool fCheckSig) c
     // These are checks that are independent of context
     // that can be verified before saving an orphan block.
     if(pindexBest != NULL && pindexBest->nHeight > 1)
-        nCoinbaseMaturity = 100; //coinbase maturity change to 180 blocks
+        nCoinbaseMaturity = 10; //coinbase maturity change to 180 blocks
     // Size limits
     if (vtx.empty() || vtx.size() > MAX_BLOCK_SIZE || ::GetSerializeSize(*this, SER_NETWORK, PROTOCOL_VERSION) > MAX_BLOCK_SIZE)
         return DoS(100, error("CheckBlock() : size limits failed"));

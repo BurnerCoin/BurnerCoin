@@ -26,7 +26,7 @@ class CInv;
 class CRequestTracker;
 class CNode;
 
-static const int LAST_POW_BLOCK = 20000; // at 60 second blocks PoW + PoS will be about 10 days from launch
+static const int LAST_POW_BLOCK = 13000; // at 60 second blocks PoW + PoS will be about 10 days from launch
 
 static const unsigned int MAX_BLOCK_SIZE = 1000000;
 static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2;
@@ -38,6 +38,7 @@ static const int64_t MIN_RELAY_TX_FEE = MIN_TX_FEE;
 static const int64_t MAX_MONEY = 5000000 * COIN;
 static const int64_t COIN_YEAR_REWARD = 1 * CENT;
 static const int64_t MAX_MINT_PROOF_OF_STAKE = 0.25 * COIN;	// 25% annual interest
+static const int64_t MAX_MINT_PROOF_OF_STAKE_NEW = 0.05 * COIN;	// 5% annual interest
 
 #define FOUNDATION "BBEkGa7K9fRWegE88JxY3gJu4aRebbKNQe"
 #define FOUNDATION_TEST "n3DyCtmMDMKhiuwDK9iZ7ZKhzJyBAKoKSk"
